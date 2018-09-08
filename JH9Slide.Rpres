@@ -1,0 +1,58 @@
+Shiny Application and Reproducible Pitch
+========================================================
+author: Koji Takahashi
+date: 2018 / 9 / 8
+transition: rotate
+
+Correlation between Life Expectancy at Birth and  
+economic indicator around the world (2015)
+
+Overview
+========================================================
+
+- This application uses the data downloaded from the World Bank's Data Catalog.
+- Calculate and display the correlation coefficient between the life expectancy at birth and the economic indicator (selected from the three indices) of each country.  
+Note : It is not a causal relationship.
+- We also plot the data and visualize the correlation.
+- The correlation coefficient may be relatively high around 0.7. However, in the correlation coefficient with the production age population, when comparing the case where all 7 regions are selected and the case where Sub-Saharan Africa is excluded, the latter largely decreases.
+
+Application
+========================================================
+
+- The application can be found in the following link
+https://jkosuke.shinyapps.io/myApp/
+- The source code is hosted in the following link
+https://github.com/jkosuke/Shiny-Application
+
+
+Application functionality
+========================================================
+
+1. Sidebar panel  
+    - Economic Indicator : Select one of the three radio buttons.  
+    - Regions : Select regions from seven check boxes. (Multiple choice possible)  
+    - Line Fit Method : Select one of the two radio buttons.  
+
+2. Main panel  
+    - A plot reflecting the selected widgets and a line fitting to the data.  
+    - The Correlation coefficient between life expectancy at birth and economic indicator.
+    - The summary of the data.
+
+Data Download
+========================================================
+
+- World Bank's Data Catalog website is as follows :
+https://datacatalog.worldbank.org/
+- The code to download the data from the site is shown below :
+
+```{r, eval=FALSE}
+library(WDI)
+
+# Data Download
+indicators <- c("SP.DYN.LE00.IN", "SH.XPD.GHED.GD.ZS",  "SP.POP.1564.TO.ZS", "NY.GDP.PCAP.CD")
+df <- WDI(country = "all", indicator = indicators, start = 2015, end = 2015, extra = TRUE)
+
+# Exclude aggregated rows of region
+df <- df[df$region != "Aggregates", ] 
+```
+
